@@ -2,23 +2,19 @@ package ast;
 
 import java.util.List;
 
-public class Program implements NodeAST {
+import ast.sentence.Sentence;
+
+/** Represents the root element of the abstract syntax tree. One program consist of many sentences.
+ * @author Sergio
+ *
+ */
+public class Program extends AbstractNodeAST {
 	
 	public List<Sentence> sentences;
 
-	@Override
-	public int getLine() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getColumn() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	public Program (int numLinea, int numColumk, List<Sentence> sentences) {
+	public Program (int line, int column, List<Sentence> sentences) {
+		super(line, column);
+		this.sentences = sentences;
 		
 	}
 

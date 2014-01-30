@@ -1,4 +1,4 @@
-DLP
+PDL
 ===
 
-Dessign Language Programming
+This is my personal repository about Programming Languages Dessign.

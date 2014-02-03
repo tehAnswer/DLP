@@ -40,10 +40,7 @@ public class Arithmetic extends AbstractExpression {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("Arithmetic {\n\tleftSide:");
-		sb.append(leftSide).append("\n\tnoperator: ").append(operator)
-				.append("\n\trightSide: ").append(rightSide);
-		return sb.append("\n}").toString();
+		return leftSide + " " + operator + " " + rightSide;
 	}
 
 }

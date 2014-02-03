@@ -31,10 +31,10 @@ public class Write extends AbstractSentence {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("Read {\n\t");
+		StringBuilder sb = new StringBuilder("write");
 		for (Expression expression : expressions)
-			sb.append(expression).append("\n");
-		return sb.append("}").toString();
+			sb.append(expression).append(", ");
+		return sb.delete(sb.length()-3, sb.length()-1).toString();
 
 	}
 

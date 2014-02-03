@@ -34,8 +34,7 @@ public class Assign extends AbstractSentence {
 
 	@Override
 	public String toString() {
-		return "Assign {\n\tleftSide: " + leftSide + "\n\trightSide="
-				+ rightSide + "\n}";
+		return leftSide + " = " + rightSide;
 	}
 
 }

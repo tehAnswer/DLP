@@ -27,7 +27,7 @@ public class Literal extends AbstractExpression {
 
 	@Override
 	public String toString() {
-		return "Literal {\n\tvalue: " + value + "\n}";
+		return String.valueOf(value);
 	}
 
 }

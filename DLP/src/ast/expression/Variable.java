@@ -27,7 +27,7 @@ public class Variable extends AbstractExpression {
 
 	@Override
 	public String toString() {
-		return "Variable {\n\tname: " + name + "\n}";
+		return name;
 	}
 
 }

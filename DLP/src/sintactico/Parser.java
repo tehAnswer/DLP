@@ -1,7 +1,7 @@
 
 package sintactico;
 
-import lexico.Lexico;
+import lexic.Lexic;
 
 /**
  * Clase Analizador Sintáctico (Parser).<br/>
@@ -52,10 +52,11 @@ public class Parser {
     /**
     * Referencia al analizador léxico
     */
-    private Lexico lexico;
+    @SuppressWarnings("unused")
+	private Lexic lexico;
     
     // * Constructor del Sintáctico
-    public Parser(Lexico lexico) {
+    public Parser(Lexic lexico) {
         // * El sintático conoce al léxico
         this.lexico = lexico;
         // * El léxico conoce al sintáctico (para el yylval)

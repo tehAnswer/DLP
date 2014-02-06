@@ -3,16 +3,8 @@ import sintactico.Parser;
 import java.io.FileReader;
 import java.io.IOException;
 
-import lexico.Lexico;
+import lexic.Lexic;
 
-/**
- * Prueba del analizador léxico.<br/>
- * Diseño de Lenguajes de Programación.<br/>
- * Escuela de Ingeniería Informática.<br/>
- * Universidad de Oviedo <br/>
- * 
- * @author Francisco Ortin
- */
 
 public class Main {
 
@@ -30,12 +22,12 @@ public class Main {
 			return;
 		}
 		
-		Lexico lexico = new Lexico(fr);
+		Lexic lexico = new Lexic(fr);
 		Parser parser = new Parser(lexico);
 		int token;
 		while ((token=lexico.yylex())!=0) {
-		    System.out.println("Linea: "+lexico.getLinea()+
-		            ", columna: "+lexico.getColumna()+
+		    System.out.println("Linea: "+lexico.getLine()+
+		            ", columna: "+lexico.getColumn()+
 		            ", token: "+token+
 		            ", valor semántico: "+parser.getYylval()+".");
 		}

@@ -1,0 +1,6 @@
+/*
+Comment one
+*/
+int a, b;
+//We got int
+/*Comment three*/ a = -b;

@@ -1,0 +1,17 @@
+/*
+Comment one
+*/
+/* Comment two */
+/*
+
+
+
+
+
+*/
+//Comment four
+//int a, b;
+/*
+int a, b;
+a = -b;
+*/

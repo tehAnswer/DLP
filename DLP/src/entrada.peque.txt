@@ -1,0 +1,35 @@
+/* 
+	Prueba de análisis léxico
+*/
+
+int i,j;
+
+// Función f
+int f(int a) {
+	return a;
+}
+
+// Función Principal
+void main() {
+	int i,b;	
+	struct { int dia, mes, anio; } miFecha;
+	int[10] v;
+	double r;
+	char c;
+
+	i = 1;	
+	r = 12.3 - 34.12E-3 * 2. + 3e3;
+	c = '\126';
+
+	b = v[2];
+	if (1 && 2 || !0) {
+		i = b;
+	}
+		
+	while (i<10) {
+	    i=i+1;
+	    j=i;
+  	}      
+}
+
+345

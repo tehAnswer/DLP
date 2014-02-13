@@ -1,5 +1,8 @@
 
 import sintactico.Parser;
+import introspector.model.IntrospectorModel;
+import introspector.view.IntrospectorTree;
+
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -24,13 +27,10 @@ public class Main {
 		
 		Lexic lexico = new Lexic(fr);
 		Parser parser = new Parser(lexico);
-		int token;
-		while ((token=lexico.yylex())!=0) {
-		    System.out.println("Linea: "+lexico.getLine()+
-		            ", columna: "+lexico.getColumn()+
-		            ", token: "+token+
-		            ", valor semántico: "+parser.getYylval()+".");
-		}
+		parser.run();
+		
+		IntrospectorModel modelo = new IntrospectorModel("Program", parser.ast);
+		new IntrospectorTree("Introspector", modelo);
 		    
 	}
 

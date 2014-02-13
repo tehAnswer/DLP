@@ -65,6 +65,8 @@ ANY = .|\n
 "struct"	{parser.setYylval(yytext()); return Parser.STRUCT;}
 "while"		{parser.setYylval(yytext()); return Parser.WHILE;}
 "write"		{parser.setYylval(yytext()); return Parser.WRITE;}
+"void"		{parser.setYylval(yytext()); return Parser.VOID;}
+"return"	{parser.setYylval(yytext()); return Parser.RETURN;}
 
 "==" 		{parser.setYylval(yytext()); return Parser.IGUALDAD;}
 "!=" 		{parser.setYylval(yytext()); return Parser.DISTINTO;}

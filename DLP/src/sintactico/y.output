@@ -1,0 +1,70 @@
+   0  $accept : expresion $end
+
+   1  expresion : expresion '+' expresion
+   2            | expresion '*' expresion
+   3            | CTE_ENTERA
+
+state 0
+	$accept : . expresion $end  (0)
+
+	CTE_ENTERA  shift 1
+	.  error
+
+	expresion  goto 2
+
+
+state 1
+	expresion : CTE_ENTERA .  (3)
+
+	.  reduce 3
+
+
+state 2
+	$accept : expresion . $end  (0)
+	expresion : expresion . '+' expresion  (1)
+	expresion : expresion . '*' expresion  (2)
+
+	$end  accept
+	'+'  shift 3
+	'*'  shift 4
+	.  error
+
+
+state 3
+	expresion : expresion '+' . expresion  (1)
+
+	CTE_ENTERA  shift 1
+	.  error
+
+	expresion  goto 5
+
+
+state 4
+	expresion : expresion '*' . expresion  (2)
+
+	CTE_ENTERA  shift 1
+	.  error
+
+	expresion  goto 6
+
+
+state 5
+	expresion : expresion . '+' expresion  (1)
+	expresion : expresion '+' expresion .  (1)
+	expresion : expresion . '*' expresion  (2)
+
+	'*'  shift 4
+	$end  reduce 1
+	'+'  reduce 1
+
+
+state 6
+	expresion : expresion . '+' expresion  (1)
+	expresion : expresion . '*' expresion  (2)
+	expresion : expresion '*' expresion .  (2)
+
+	.  reduce 2
+
+
+26 terminals, 2 nonterminals
+4 grammar rules, 7 states

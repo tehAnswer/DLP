@@ -1,3 +1,3 @@
 cls
-java -cp JFlex.jar JFlex.Main -d .\src\lexico .\src\lexico\lexico.flex
+java -cp JFlex.jar JFlex.Main -d .\src\lexic .\src\lexic\lexic.flex
 pause

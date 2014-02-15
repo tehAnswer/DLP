@@ -12,7 +12,7 @@ import lexic.Lexic;
 import org.junit.Before;
 import org.junit.Test;
 
-import sintactico.Parser;
+import syntax.Parser;
 
 public class LexicTest {
 	

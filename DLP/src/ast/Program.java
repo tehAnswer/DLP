@@ -11,10 +11,12 @@ import ast.sentence.Sentence;
 public class Program extends AbstractNodeAST {
 	
 	public List<Sentence> sentences;
+	public List<VariableDefinition> definitions;
 
-	public Program (int line, int column, List<Sentence> sentences) {
+	public Program (int line, int column, List<Sentence> sentences, List<VariableDefinition> definitions) {
 		super(line, column);
 		this.sentences = sentences;
+		this.definitions = definitions;
 		
 	}
 

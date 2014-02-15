@@ -3,7 +3,7 @@
 // ************  Imports and packages ********************
 
 package lexic;
-import sintactico.Parser;
+import syntax.Parser;
 
 
 /**

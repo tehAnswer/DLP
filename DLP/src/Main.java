@@ -1,5 +1,5 @@
 
-import sintactico.Parser;
+import syntax.Parser;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
 

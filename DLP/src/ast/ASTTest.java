@@ -46,7 +46,7 @@ public class ASTTest {
 		sentencias.add(sentencia1);
 		sentencias.add(sentencia2);
 		sentencias.add(sentencia3);
-		return new Program(1, 1, sentencias);
+		return new Program(1, 1, sentencias, null);
 	}
 
 	public static void main(String[] args) {

@@ -47,68 +47,25 @@ import java.util.ArrayList;
 %%
 // * Gramática y acciones Yacc
 
-//programa: listaDeclaraciones VOID MAIN () { listaSentencias } { this.ast = new Program (0, 0,$1, $7); }
-//expresion: expresion '+' expresion { $$= new LiteralEntero (1,1,(Expression)$1,"+",(Expression)$3); }
-//         | expresion '*' expresion { $$= new LiteralEntero (1,1,(Expression)$1,"*",(Expression)$3); }
-//expresion: CTE_ENTERA	{ $$= new LiteralEntero (1,1, getYylval()); }
 
 
+programa: listaDeclaraciones VOID MAIN "(" ")" "{" listaSentencias "}" { this.ast = new Program (lexico.getLine(), lexico.getColumn(), (ArrayList<Sentence>)$7, (ArrayList<VariableDefinition>)$1); };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-programa: listaDeclaraciones VOID MAIN "()" "{" listaSentencias "}" { this.ast = new Program (lexico.getLine(), lexico.getColumn(), (List<Sentence>)$7, (List<VariableDefinition>)$1); };
-
-declaracion:	tipo listaIndentificadores ";"; { }
-listaIndentificadores: 	ID	{ List<Variable> xx = new ArrayList<Variable>(); xx.add(new Variable (lexico.getLine(), lexico.getColumn(), (String) getYylval())); $$ = xx; }
-						| listaIndentificadores "," ID { $$ = $1; ((List<Variable>)$$).add(new Variable (lexico.getLine(), lexico.getColumn(), (String) getYylval())); }
+declaracion:	tipo listaIndentificadores ";"; { ArrayList<VariableDefinition> xx = new ArrayList<VariableDefinition>(); for (Variable v: (ArrayList<Variable>)$2) xx.add(new VariableDefinition(lexico.getLine(), lexico.getColumn(), v, (Type)$1)); $$ = xx; }
+ 
+listaIndentificadores: 	ID	{ List<Variable> xx = new ArrayList<Variable>(); xx.add(new Variable (lexico.getLine(), lexico.getColumn(), (String) $1)); $$ = xx; }
+						| listaIndentificadores "," ID { $$ = $1; ((ArrayList<Variable>)$$).add(new Variable (lexico.getLine(), lexico.getColumn(), (String) getYylval())); }
 						;
 
-listaDeclaraciones : /* Optional */ { }
-					| listaDeclaraciones declaracion { $$ = $1; ((List<VariableDefinition>)$$).add((VariableDefinition)$2); }
+listaDeclaraciones : /* Optional */ { $$ = new ArrayList<VariableDefinition> ();}
+					| listaDeclaraciones declaracion { $$ = $1;  for (VariableDefinition vd: (ArrayList<VariableDefinition>)$2) ((ArrayList<VariableDefinition>)$$).add(vd); }
 					;
 					
-listaSentencias:	/*Optional*/ { }
-					| listaSentencias sentencia		{ $$ = $1; ((List<Sentence>)$$).add((Sentence)$2); };
+listaSentencias:	/*Optional*/ {$$ = new ArrayList<Sentence> (); }
+					| listaSentencias sentencia		{ $$ = $1; ((ArrayList<Sentence>)$$).add((Sentence)$2); };
 					
-listaExpresiones:	expresion { $$ = new ArrayList<Expression>(); ((List<Expression>)$$).add((Expression)$1); }
-					| listaExpresiones ", " expresion	{ $$ = $1; ((List<Expression>)$$).add((Expression)$3); }
+listaExpresiones:	expresion { $$ = new ArrayList<Expression>(); ((ArrayList<Expression>)$$).add((Expression)$1); }
+					| listaExpresiones ", " expresion	{ $$ = $1; ((ArrayList<Expression>)$$).add((Expression)$3); }
 					
 					;
 
@@ -116,7 +73,6 @@ listaExpresiones:	expresion { $$ = new ArrayList<Expression>(); ((List<Expressio
 sentencia:	escritura
 			| lectura
 			| asignacion
-			| expresion ";"
 			;
 			
 escritura:	WRITE listaExpresiones ";"	{ $$ = new Write(lexico.getLine(), lexico.getColumn(), (List<Expression>)$3); };
@@ -125,7 +81,7 @@ asignacion: expresion "=" expresion ";"	{ $$ = new Assign(lexico.getLine(), lexi
 tipo:	INT	{ $$ = new TypeInteger(); }
 		| DOUBLE	{ $$ = new TypeDouble(); }
 		| CHAR	{ $$ = new TypeChar(); }
-		| tipo "[" CTE_ENTERA "]"	{ $$ = new TypeArray((Type)$1, (Integer) getYylval()); }
+		| tipo "[" CTE_ENTERA "]"	{ $$ = new TypeArray((Type)$1, Integer.parseInt(String.valueOf(($3)))); }
 
 expresion: expresion '+' expresion	{ $$=  new Arithmetic(lexico.getLine(), lexico.getColumn(), (Expression) $1, (String)$2 , (Expression)$3); }
 		| expresion '*' expresion	{ $$=  new Arithmetic(lexico.getLine(), lexico.getColumn(), (Expression)$1, (String)$2 , (Expression)$3); }
@@ -135,6 +91,8 @@ expresion: expresion '+' expresion	{ $$=  new Arithmetic(lexico.getLine(), lexic
 		| expresion "[" expresion "]"	{ $$=  new AccesoArray(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$2); }
 		| "-" expresion	%prec MENOSUNARIO { $$= new UnaryNegation (lexico.getLine(), lexico.getColumn(), (Expression)$2); }
 		| CTE_ENTERA	{ $$= new Literal (lexico.getLine(), lexico.getColumn(), (Integer) getYylval()); }
+		| listaIndentificadores	{ /*$$= new Variable (lexico.getLine(), lexico.getColumn(), (String)getYylval());*/ }
+		| "(" expresion ")" { $$= $2;}
          ;
 %%
 

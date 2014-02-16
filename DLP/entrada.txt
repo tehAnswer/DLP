@@ -4,6 +4,6 @@ int[10] v;
 
 void main() {
   read i,e;
-  j = -((i-e)/2);
-  write j, v[i];
+  //j = -((i-e)/2);
+  //write j, v[i];
 }

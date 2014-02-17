@@ -28,10 +28,8 @@ public class Main {
 		Lexic lexico = new Lexic(fr);
 		Parser parser = new Parser(lexico);
 		parser.run();
-		
 		IntrospectorModel modelo = new IntrospectorModel("Program", parser.ast);
 		new IntrospectorTree("Introspector", modelo);
-		    
 	}
 
 }

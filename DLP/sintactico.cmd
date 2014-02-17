@@ -1,6 +1,5 @@
 cls
 cd %~dp0
-cd src\sintactico
-..\..\tool\yacc -J -v -Jpackage=sintactico -Jsemantic=Object .\sinj.y
-cd ..\..
+cd src\syntax
+..\..\tool\yacc -J -v -Jpackage=syntax -Jsemantic=Object .\sinj.y
 pause

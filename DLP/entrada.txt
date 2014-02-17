@@ -1,9 +1,8 @@
-int i,e;
-double j;
-int[10] v;
-
+int a, b,c;
+int[10] x;
 void main() {
-  read i,e;
-  //j = -((i-e)/2);
-  //write j, v[i];
+  write (-(i-e)*1);
+  read i,j;
+  a = a-x;
+  
 }

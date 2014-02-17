@@ -38,10 +38,10 @@ import java.util.ArrayList;
 %token Y
 %token O
 
-%left "["
-%left "+" "-"
-%left "*" "%"
-%left "/"
+%left '['
+%left '+' '-'
+%left '*' '%'
+%left '/'
 %left MENOSUNARIO
 
 %%
@@ -49,12 +49,12 @@ import java.util.ArrayList;
 
 
 
-programa: listaDeclaraciones VOID MAIN "(" ")" "{" listaSentencias "}" { this.ast = new Program (lexico.getLine(), lexico.getColumn(), (ArrayList<Sentence>)$7, (ArrayList<VariableDefinition>)$1); };
+programa: listaDeclaraciones VOID MAIN '(' ')' '{' listaSentencias '}' { this.ast = new Program (lexico.getLine(), lexico.getColumn(), (ArrayList<Sentence>)$7, (ArrayList<VariableDefinition>)$1); };
 
-declaracion:	tipo listaIndentificadores ";"; { ArrayList<VariableDefinition> xx = new ArrayList<VariableDefinition>(); for (Variable v: (ArrayList<Variable>)$2) xx.add(new VariableDefinition(lexico.getLine(), lexico.getColumn(), v, (Type)$1)); $$ = xx; }
+declaracion:	tipo listaIndentificadores ';'; { ArrayList<VariableDefinition> xx = new ArrayList<VariableDefinition>(); for (Variable v: (ArrayList<Variable>)$2) xx.add(new VariableDefinition(lexico.getLine(), lexico.getColumn(), v, (Type)$1)); $$ = xx; }
  
 listaIndentificadores: 	ID	{ List<Variable> xx = new ArrayList<Variable>(); xx.add(new Variable (lexico.getLine(), lexico.getColumn(), (String) $1)); $$ = xx; }
-						| listaIndentificadores "," ID { $$ = $1; ((ArrayList<Variable>)$$).add(new Variable (lexico.getLine(), lexico.getColumn(), (String) getYylval())); }
+						| listaIndentificadores ',' ID { $$ = $1; ((ArrayList<Variable>)$$).add(new Variable (lexico.getLine(), lexico.getColumn(), (String)$3)); }
 						;
 
 listaDeclaraciones : /* Optional */ { $$ = new ArrayList<VariableDefinition> ();}
@@ -65,7 +65,7 @@ listaSentencias:	/*Optional*/ {$$ = new ArrayList<Sentence> (); }
 					| listaSentencias sentencia		{ $$ = $1; ((ArrayList<Sentence>)$$).add((Sentence)$2); };
 					
 listaExpresiones:	expresion { $$ = new ArrayList<Expression>(); ((ArrayList<Expression>)$$).add((Expression)$1); }
-					| listaExpresiones ", " expresion	{ $$ = $1; ((ArrayList<Expression>)$$).add((Expression)$3); }
+					| listaExpresiones ',' expresion	{ $$ = $1; ((ArrayList<Expression>)$$).add((Expression)$3); }
 					
 					;
 
@@ -75,24 +75,25 @@ sentencia:	escritura
 			| asignacion
 			;
 			
-escritura:	WRITE listaExpresiones ";"	{ $$ = new Write(lexico.getLine(), lexico.getColumn(), (List<Expression>)$3); };
-lectura:	READ listaExpresiones ";"	{ $$ = new Read(lexico.getLine(), lexico.getColumn(), (List<Expression>)$3); };
-asignacion: expresion "=" expresion ";"	{ $$ = new Assign(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3); };
+escritura:	WRITE listaExpresiones ';'	{ $$ = new Write(lexico.getLine(), lexico.getColumn(), (List<Expression>)$2); };
+lectura:	READ listaExpresiones ';'	{ $$ = new Read(lexico.getLine(), lexico.getColumn(), (List<Expression>)$2); };
+asignacion: expresion '=' expresion ';'	{ $$ = new Assign(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3); };
 tipo:	INT	{ $$ = new TypeInteger(); }
 		| DOUBLE	{ $$ = new TypeDouble(); }
 		| CHAR	{ $$ = new TypeChar(); }
-		| tipo "[" CTE_ENTERA "]"	{ $$ = new TypeArray((Type)$1, Integer.parseInt(String.valueOf(($3)))); }
+		| tipo '[' CTE_ENTERA ']'	{ $$ = new TypeArray((Type)$1, Integer.parseInt(String.valueOf(($3)))); }
 
 expresion: expresion '+' expresion	{ $$=  new Arithmetic(lexico.getLine(), lexico.getColumn(), (Expression) $1, (String)$2 , (Expression)$3); }
 		| expresion '*' expresion	{ $$=  new Arithmetic(lexico.getLine(), lexico.getColumn(), (Expression)$1, (String)$2 , (Expression)$3); }
-		| expresion "-" expresion	{ $$=  new Arithmetic(lexico.getLine(), lexico.getColumn(), (Expression)$1, (String)$2 , (Expression)$3); }
-		| expresion "/" expresion	{ $$=  new Arithmetic(lexico.getLine(), lexico.getColumn(), (Expression)$1, (String)$2 , (Expression)$3); }
-		| expresion "%" expresion	{ $$=  new Arithmetic(lexico.getLine(), lexico.getColumn(), (Expression)$1, (String)$2 , (Expression)$3); }
-		| expresion "[" expresion "]"	{ $$=  new AccesoArray(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$2); }
-		| "-" expresion	%prec MENOSUNARIO { $$= new UnaryNegation (lexico.getLine(), lexico.getColumn(), (Expression)$2); }
-		| CTE_ENTERA	{ $$= new Literal (lexico.getLine(), lexico.getColumn(), (Integer) getYylval()); }
-		| listaIndentificadores	{ /*$$= new Variable (lexico.getLine(), lexico.getColumn(), (String)getYylval());*/ }
-		| "(" expresion ")" { $$= $2;}
+		| expresion '-' expresion	{ $$=  new Arithmetic(lexico.getLine(), lexico.getColumn(), (Expression)$1, (String)$2 , (Expression)$3); }
+		| expresion '/' expresion	{ $$=  new Arithmetic(lexico.getLine(), lexico.getColumn(), (Expression)$1, (String)$2 , (Expression)$3); }
+		| expresion '%' expresion	{ $$=  new Arithmetic(lexico.getLine(), lexico.getColumn(), (Expression)$1, (String)$2 , (Expression)$3); }
+		| expresion '[' expresion ']'	{ $$=  new AccesoArray(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3); }
+		| '-' expresion	%prec MENOSUNARIO { $$= new UnaryNegation (lexico.getLine(), lexico.getColumn(), (Expression)$2); }
+		| CTE_ENTERA	{ $$= new Literal (lexico.getLine(), lexico.getColumn(), (Integer) $1); }
+		| ID { $$ = new Variable (lexico.getLine(), lexico.getColumn(), $1.toString()); }
+		//| listaIndentificadores	{ /*$$= new Variable (lexico.getLine(), lexico.getColumn(), (String)getYylval());*/ }
+		| '(' expresion ')' { $$= $2;}
          ;
 %%
 

@@ -1,7 +1,7 @@
 // ************  Imports and packages ********************
 
 package lexic;
-import sintactico.Parser;
+import syntax.Parser;
 
 %%
 // ************  Options ********************
@@ -76,7 +76,21 @@ ANY = .|\n
 ">="		{parser.setYylval(yytext()); return Parser.MAYORIGUAL;}
 
 
-['!*+-=,;({)}\[\]\/\\] {parser.setYylval(yytext()); return yycharat(0);}
+"'" | 
+"!" |
+"*" |
+"+" |
+"-" |
+"=" |
+"," |
+";" |
+"(" |
+"{" |
+")" |
+"}" |
+"[" |
+"]" |
+"/"			{parser.setYylval(yytext()); return yycharat(0);}
 
 { IDENT }		{parser.setYylval(yytext()); return Parser.ID;}
 { LITCHAR }		{ parser.setYylval(new Integer(yytext())); return Parser.CTE_CARACTER;  }

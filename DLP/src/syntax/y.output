@@ -1,0 +1,702 @@
+   0  $accept : program $end
+
+   1  program : variableDefinitionList VOID MAIN '(' ')' '{' sentenceList '}'
+
+   2  variableDefinition : type variableDefinitionList ';'
+
+   3  variableDefinitionList : ID
+   4                         | variableDefinitionList ',' ID
+   5                         |
+   6                         | variableDefinitionList variableDefinition
+
+   7  sentenceList :
+   8               | sentenceList sentence
+
+   9  expressionList : expression
+  10                 | expressionList ',' expression
+
+  11  sentence : write
+  12           | read
+  13           | assign
+
+  14  write : WRITE expressionList ';'
+
+  15  read : READ expressionList ';'
+
+  16  assign : expression '=' expression ';'
+
+  17  type : INT
+  18       | DOUBLE
+  19       | CHAR
+  20       | type '[' CTE_ENTERA ']'
+
+  21  expression : expression '+' expression
+  22             | expression '*' expression
+  23             | expression '-' expression
+  24             | expression '/' expression
+  25             | expression '%' expression
+  26             | expression '[' expression ']'
+  27             | '-' expression
+  28             | CTE_ENTERA
+  29             | ID
+  30             | '(' expression ')'
+
+state 0
+	$accept : . program $end  (0)
+	variableDefinitionList : .  (5)
+
+	ID  shift 1
+	CHAR  reduce 5
+	DOUBLE  reduce 5
+	INT  reduce 5
+	VOID  reduce 5
+	','  reduce 5
+
+	program  goto 2
+	variableDefinitionList  goto 3
+
+
+state 1
+	variableDefinitionList : ID .  (3)
+
+	.  reduce 3
+
+
+state 2
+	$accept : program . $end  (0)
+
+	$end  accept
+
+
+state 3
+	program : variableDefinitionList . VOID MAIN '(' ')' '{' sentenceList '}'  (1)
+	variableDefinitionList : variableDefinitionList . ',' ID  (4)
+	variableDefinitionList : variableDefinitionList . variableDefinition  (6)
+
+	CHAR  shift 4
+	DOUBLE  shift 5
+	INT  shift 6
+	VOID  shift 7
+	','  shift 8
+	.  error
+
+	variableDefinition  goto 9
+	type  goto 10
+
+
+state 4
+	type : CHAR .  (19)
+
+	.  reduce 19
+
+
+state 5
+	type : DOUBLE .  (18)
+
+	.  reduce 18
+
+
+state 6
+	type : INT .  (17)
+
+	.  reduce 17
+
+
+state 7
+	program : variableDefinitionList VOID . MAIN '(' ')' '{' sentenceList '}'  (1)
+
+	MAIN  shift 11
+	.  error
+
+
+state 8
+	variableDefinitionList : variableDefinitionList ',' . ID  (4)
+
+	ID  shift 12
+	.  error
+
+
+state 9
+	variableDefinitionList : variableDefinitionList variableDefinition .  (6)
+
+	.  reduce 6
+
+
+state 10
+	variableDefinition : type . variableDefinitionList ';'  (2)
+	type : type . '[' CTE_ENTERA ']'  (20)
+	variableDefinitionList : .  (5)
+
+	ID  shift 1
+	'['  shift 13
+	CHAR  reduce 5
+	DOUBLE  reduce 5
+	INT  reduce 5
+	';'  reduce 5
+	','  reduce 5
+
+	variableDefinitionList  goto 14
+
+
+state 11
+	program : variableDefinitionList VOID MAIN . '(' ')' '{' sentenceList '}'  (1)
+
+	'('  shift 15
+	.  error
+
+
+state 12
+	variableDefinitionList : variableDefinitionList ',' ID .  (4)
+
+	.  reduce 4
+
+
+state 13
+	type : type '[' . CTE_ENTERA ']'  (20)
+
+	CTE_ENTERA  shift 16
+	.  error
+
+
+state 14
+	variableDefinition : type variableDefinitionList . ';'  (2)
+	variableDefinitionList : variableDefinitionList . ',' ID  (4)
+	variableDefinitionList : variableDefinitionList . variableDefinition  (6)
+
+	CHAR  shift 4
+	DOUBLE  shift 5
+	INT  shift 6
+	';'  shift 17
+	','  shift 8
+	.  error
+
+	variableDefinition  goto 9
+	type  goto 10
+
+
+state 15
+	program : variableDefinitionList VOID MAIN '(' . ')' '{' sentenceList '}'  (1)
+
+	')'  shift 18
+	.  error
+
+
+state 16
+	type : type '[' CTE_ENTERA . ']'  (20)
+
+	']'  shift 19
+	.  error
+
+
+state 17
+	variableDefinition : type variableDefinitionList ';' .  (2)
+
+	.  reduce 2
+
+
+state 18
+	program : variableDefinitionList VOID MAIN '(' ')' . '{' sentenceList '}'  (1)
+
+	'{'  shift 20
+	.  error
+
+
+state 19
+	type : type '[' CTE_ENTERA ']' .  (20)
+
+	.  reduce 20
+
+
+state 20
+	program : variableDefinitionList VOID MAIN '(' ')' '{' . sentenceList '}'  (1)
+	sentenceList : .  (7)
+
+	.  reduce 7
+
+	sentenceList  goto 21
+
+
+state 21
+	program : variableDefinitionList VOID MAIN '(' ')' '{' sentenceList . '}'  (1)
+	sentenceList : sentenceList . sentence  (8)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	READ  shift 24
+	WRITE  shift 25
+	'-'  shift 26
+	'('  shift 27
+	'}'  shift 28
+	.  error
+
+	sentence  goto 29
+	expression  goto 30
+	write  goto 31
+	read  goto 32
+	assign  goto 33
+
+
+state 22
+	expression : CTE_ENTERA .  (28)
+
+	.  reduce 28
+
+
+state 23
+	expression : ID .  (29)
+
+	.  reduce 29
+
+
+state 24
+	read : READ . expressionList ';'  (15)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expressionList  goto 34
+	expression  goto 35
+
+
+state 25
+	write : WRITE . expressionList ';'  (14)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expressionList  goto 36
+	expression  goto 35
+
+
+state 26
+	expression : '-' . expression  (27)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expression  goto 37
+
+
+state 27
+	expression : '(' . expression ')'  (30)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expression  goto 38
+
+
+state 28
+	program : variableDefinitionList VOID MAIN '(' ')' '{' sentenceList '}' .  (1)
+
+	.  reduce 1
+
+
+state 29
+	sentenceList : sentenceList sentence .  (8)
+
+	.  reduce 8
+
+
+state 30
+	assign : expression . '=' expression ';'  (16)
+	expression : expression . '+' expression  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression . '[' expression ']'  (26)
+
+	'['  shift 39
+	'+'  shift 40
+	'-'  shift 41
+	'*'  shift 42
+	'%'  shift 43
+	'/'  shift 44
+	'='  shift 45
+	.  error
+
+
+state 31
+	sentence : write .  (11)
+
+	.  reduce 11
+
+
+state 32
+	sentence : read .  (12)
+
+	.  reduce 12
+
+
+state 33
+	sentence : assign .  (13)
+
+	.  reduce 13
+
+
+state 34
+	expressionList : expressionList . ',' expression  (10)
+	read : READ expressionList . ';'  (15)
+
+	';'  shift 46
+	','  shift 47
+	.  error
+
+
+state 35
+	expressionList : expression .  (9)
+	expression : expression . '+' expression  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression . '[' expression ']'  (26)
+
+	'['  shift 39
+	'+'  shift 40
+	'-'  shift 41
+	'*'  shift 42
+	'%'  shift 43
+	'/'  shift 44
+	';'  reduce 9
+	','  reduce 9
+
+
+state 36
+	expressionList : expressionList . ',' expression  (10)
+	write : WRITE expressionList . ';'  (14)
+
+	';'  shift 48
+	','  shift 47
+	.  error
+
+
+state 37
+	expression : expression . '+' expression  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression . '[' expression ']'  (26)
+	expression : '-' expression .  (27)
+
+	.  reduce 27
+
+
+state 38
+	expression : expression . '+' expression  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression . '[' expression ']'  (26)
+	expression : '(' expression . ')'  (30)
+
+	'['  shift 39
+	'+'  shift 40
+	'-'  shift 41
+	'*'  shift 42
+	'%'  shift 43
+	'/'  shift 44
+	')'  shift 49
+	.  error
+
+
+state 39
+	expression : expression '[' . expression ']'  (26)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expression  goto 50
+
+
+state 40
+	expression : expression '+' . expression  (21)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expression  goto 51
+
+
+state 41
+	expression : expression '-' . expression  (23)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expression  goto 52
+
+
+state 42
+	expression : expression '*' . expression  (22)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expression  goto 53
+
+
+state 43
+	expression : expression '%' . expression  (25)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expression  goto 54
+
+
+state 44
+	expression : expression '/' . expression  (24)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expression  goto 55
+
+
+state 45
+	assign : expression '=' . expression ';'  (16)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expression  goto 56
+
+
+state 46
+	read : READ expressionList ';' .  (15)
+
+	.  reduce 15
+
+
+state 47
+	expressionList : expressionList ',' . expression  (10)
+
+	CTE_ENTERA  shift 22
+	ID  shift 23
+	'-'  shift 26
+	'('  shift 27
+	.  error
+
+	expression  goto 57
+
+
+state 48
+	write : WRITE expressionList ';' .  (14)
+
+	.  reduce 14
+
+
+state 49
+	expression : '(' expression ')' .  (30)
+
+	.  reduce 30
+
+
+state 50
+	expression : expression . '+' expression  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression . '[' expression ']'  (26)
+	expression : expression '[' expression . ']'  (26)
+
+	'['  shift 39
+	'+'  shift 40
+	'-'  shift 41
+	'*'  shift 42
+	'%'  shift 43
+	'/'  shift 44
+	']'  shift 58
+	.  error
+
+
+state 51
+	expression : expression . '+' expression  (21)
+	expression : expression '+' expression .  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression . '[' expression ']'  (26)
+
+	'*'  shift 42
+	'%'  shift 43
+	'/'  shift 44
+	'['  reduce 21
+	'+'  reduce 21
+	'-'  reduce 21
+	')'  reduce 21
+	';'  reduce 21
+	','  reduce 21
+	'='  reduce 21
+	']'  reduce 21
+
+
+state 52
+	expression : expression . '+' expression  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression '-' expression .  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression . '[' expression ']'  (26)
+
+	'*'  shift 42
+	'%'  shift 43
+	'/'  shift 44
+	'['  reduce 23
+	'+'  reduce 23
+	'-'  reduce 23
+	')'  reduce 23
+	';'  reduce 23
+	','  reduce 23
+	'='  reduce 23
+	']'  reduce 23
+
+
+state 53
+	expression : expression . '+' expression  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression '*' expression .  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression . '[' expression ']'  (26)
+
+	'/'  shift 44
+	'['  reduce 22
+	'+'  reduce 22
+	'-'  reduce 22
+	'*'  reduce 22
+	'%'  reduce 22
+	')'  reduce 22
+	';'  reduce 22
+	','  reduce 22
+	'='  reduce 22
+	']'  reduce 22
+
+
+state 54
+	expression : expression . '+' expression  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression '%' expression .  (25)
+	expression : expression . '[' expression ']'  (26)
+
+	'/'  shift 44
+	'['  reduce 25
+	'+'  reduce 25
+	'-'  reduce 25
+	'*'  reduce 25
+	'%'  reduce 25
+	')'  reduce 25
+	';'  reduce 25
+	','  reduce 25
+	'='  reduce 25
+	']'  reduce 25
+
+
+state 55
+	expression : expression . '+' expression  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression '/' expression .  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression . '[' expression ']'  (26)
+
+	.  reduce 24
+
+
+state 56
+	assign : expression '=' expression . ';'  (16)
+	expression : expression . '+' expression  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression . '[' expression ']'  (26)
+
+	'['  shift 39
+	'+'  shift 40
+	'-'  shift 41
+	'*'  shift 42
+	'%'  shift 43
+	'/'  shift 44
+	';'  shift 59
+	.  error
+
+
+state 57
+	expressionList : expressionList ',' expression .  (10)
+	expression : expression . '+' expression  (21)
+	expression : expression . '*' expression  (22)
+	expression : expression . '-' expression  (23)
+	expression : expression . '/' expression  (24)
+	expression : expression . '%' expression  (25)
+	expression : expression . '[' expression ']'  (26)
+
+	'['  shift 39
+	'+'  shift 40
+	'-'  shift 41
+	'*'  shift 42
+	'%'  shift 43
+	'/'  shift 44
+	';'  reduce 10
+	','  reduce 10
+
+
+state 58
+	expression : expression '[' expression ']' .  (26)
+
+	.  reduce 26
+
+
+state 59
+	assign : expression '=' expression ';' .  (16)
+
+	.  reduce 16
+
+
+39 terminals, 12 nonterminals
+31 grammar rules, 60 states

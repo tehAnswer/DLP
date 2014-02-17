@@ -3,6 +3,8 @@
 package lexic;
 import syntax.Parser;
 
+@SuppressWarnings({"unused" })
+
 %%
 // ************  Options ********************
 // % debug 

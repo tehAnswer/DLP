@@ -27,7 +27,7 @@ public class UnaryNegation extends AbstractUnaryOperator {
 
 	@Override
 	public String toString() {
-		return "-" + expression;
+		return "-(" + expression + ")";
 	}
 
 }

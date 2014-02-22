@@ -8,7 +8,7 @@ package ast.expression;
  */
 public class UnaryNegation extends AbstractUnaryOperator {
 
-	public String operator;
+	
 
 	/**
 	 * Constructor

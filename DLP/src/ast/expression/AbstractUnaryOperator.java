@@ -7,6 +7,7 @@ package ast.expression;
 public abstract class AbstractUnaryOperator extends AbstractExpression {
 	
 	protected Expression expression;
+	protected String operator;
 
 	public AbstractUnaryOperator(int line, int column, Expression expression) {
 		super(line, column);

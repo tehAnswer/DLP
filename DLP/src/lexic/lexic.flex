@@ -42,6 +42,7 @@ public int getColumn() {
 
 CHAR = [a-zA-Z‡çŽƒ’êœò—î]
 COMMENT = "/*"~"*/"
+CHARX = "'\\n'" | "'\\t'" | "'\\f'" | "'\\r'"
 DOT = "."
 IDENT = {CHAR}({CHAR}|{LITINT})*
 LINECOMMENT = "//" .* {LINETERMINATOR}
@@ -78,7 +79,8 @@ ANY = .|\n
 ">="		{parser.setYylval(yytext()); return Parser.MAYORIGUAL;}
 
 
-"'" | 
+"'" |
+"."	| 
 "!" |
 "*" |
 "+" |
@@ -92,10 +94,12 @@ ANY = .|\n
 "}" |
 "[" |
 "]" |
-"/"			{parser.setYylval(yytext()); return yycharat(0);}
+"/" 			{parser.setYylval(yytext()); return yycharat(0);}
 
 { IDENT }		{parser.setYylval(yytext()); return Parser.ID;}
-{ LITCHAR }		{ parser.setYylval(new Integer(yytext())); return Parser.CTE_CARACTER;  }
+"'" {CHAR} "'"	{parser.setYylval(yycharat(1)); return Parser.CTE_CARACTER;}
+{CHARX} 			{parser.setYylval(yytext()); return Parser.CTE_CARACTER;}
+{ LITCHAR }	{ parser.setYylval(new Integer(yytext())); return Parser.CTE_CARACTER;  }
 { LITINT }		{ parser.setYylval(new Integer(yytext())); return Parser.CTE_ENTERA;  }
 { REAL }		{ parser.setYylval(new Double(yytext())); return Parser.CTE_REAL;  }   
 

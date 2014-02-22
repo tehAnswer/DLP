@@ -12,6 +12,8 @@ import lexic.Lexic;
 public class Main {
 
 	public static void main(String args[]) throws IOException {
+		
+		System.out.println ("INOEFIRIREWIR");
 	    if (args.length<1) {
 	        System.err.println("Necesito el archivo de entrada.");
 	        return;

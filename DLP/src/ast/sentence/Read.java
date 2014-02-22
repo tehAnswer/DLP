@@ -10,9 +10,7 @@ import ast.expression.Expression;
  * @author Sergio
  * 
  */
-public class Read extends AbstractSentence {
-
-	private List<Expression> expressions;
+public class Read extends SentenceWithListOfExpressions {
 
 	/**
 	 * Constructor
@@ -25,8 +23,7 @@ public class Read extends AbstractSentence {
 	 *            expressions to read.
 	 */
 	public Read(int line, int column, List<Expression> expressions) {
-		super(line, column);
-		this.expressions = expressions;
+		super(line, column, expressions);
 	}
 
 	@Override

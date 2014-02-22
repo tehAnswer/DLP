@@ -1,8 +1,42 @@
-int a, b,c;
-int[10] x;
+
+// * Declaraciones de variables y definiciones de tipos
+int i, w;
+char c;
+int[10][3][4] x;
+
+
+
+// * Funciones
+void p() {}
+
+int f(int n, double r) {
+  double real;
+ char c1, c2;
+  c1 = (char)n;
+  real = c1 + n + r;
+  p(); // * Invocación como sentencia
+  return (int)c1;
+}
+
+
+// * Programa principal
 void main() {
-  write (-(i-e)*1);
-  read i,j;
-  a = a-x;
-  
+  // * Registro
+  struct {
+    int entero;
+    char e;
+  } miPar;
+  // * Array
+  double[10][5] vector;
+  i=0;
+  while (miPar.entero >= i) {
+    if (miPar.entero == vector[0][0] && !miPar.caracter)
+      write 'c', 'i', 'e', 'r', 't', 'o', '\n';
+    else 
+      write 'f', 'a', 'l', 's', 'o', '\n';
+    i=i+1;
+  }
+  write f(i, (double)i); // * Invocación como expresión
+  vector[9][(int)4.3]=5.6;
+  f(1, 2.2); // * Invocación como sentencia
 }

@@ -7,11 +7,9 @@ package ast.expression;
  * @author Sergio
  * 
  */
-public class Arithmetic extends AbstractExpression {
+public class Arithmetic extends BinaryExpression {
 
-	private Expression leftSide;
-	private Expression rightSide;
-	private String operator;
+	
 
 	/**
 	 * Constructor
@@ -32,10 +30,8 @@ public class Arithmetic extends AbstractExpression {
 	 */
 	public Arithmetic(int line, int column, Expression leftSide,
 			String operator, Expression rightSide) {
-		super(line, column);
-		this.leftSide = leftSide;
-		this.rightSide = rightSide;
-		this.operator = operator;
+		super(line, column, rightSide, rightSide, operator);
+	
 	}
 
 	@Override

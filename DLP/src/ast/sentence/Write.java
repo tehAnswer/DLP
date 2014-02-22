@@ -10,9 +10,8 @@ import ast.expression.Expression;
  * @author Sergio
  * 
  */
-public class Write extends AbstractSentence {
+public class Write extends SentenceWithListOfExpressions {
 
-	public List<Expression> expressions;
 
 	/**
 	 * Constructor
@@ -25,8 +24,7 @@ public class Write extends AbstractSentence {
 	 *            list of expresion to print.
 	 */
 	public Write(int line, int column, List<Expression> expressions) {
-		super(line, column);
-		this.expressions = expressions;
+		super(line, column, expressions);
 	}
 
 	@Override

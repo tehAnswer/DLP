@@ -57,6 +57,13 @@ public class LexicTest {
 			assertTrue(tokens.get(i) == Parser.CTE_REAL);
 	}
 	
+	@Test
+	public void testChars () throws IOException {
+		addTokensFromFileNamed("chars");
+		for (int i = 0; i <= 2; i++)
+			assertTrue(tokens.get(i) == Parser.CTE_CARACTER);
+	}
+	
 	
 	private void addTokensFromFileNamed (String nameOfFile) throws IOException {
 		fileReader = new FileReader(nameOfFile);
@@ -67,6 +74,8 @@ public class LexicTest {
 		while ((token=lexic.yylex())!=0)
 			tokens.add(token);
 	}
+	
+	
 	
 
 }

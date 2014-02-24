@@ -71,6 +71,8 @@ ANY = .|\n
 "void"		{parser.setYylval(yytext()); return Parser.VOID;}
 "return"	{parser.setYylval(yytext()); return Parser.RETURN;}
 
+">"		{parser.setYylval(yytext()); return Parser.MAYOR;}
+"<"		{parser.setYylval(yytext()); return Parser.MENOR;}
 "==" 		{parser.setYylval(yytext()); return Parser.IGUALDAD;}
 "!=" 		{parser.setYylval(yytext()); return Parser.DISTINTO;}
 "&&"		{parser.setYylval(yytext()); return Parser.Y;}

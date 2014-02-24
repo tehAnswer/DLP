@@ -2,7 +2,11 @@
 // * Declaraciones de variables y definiciones de tipos
 int i, w;
 char c;
-int[10][3][4] x;
+
+ struct {
+    int entero;
+    char e;
+  }[10][3][4] x;
 
 
 
@@ -29,7 +33,7 @@ void main() {
   // * Array
   double[10][5] vector;
   i=0;
-  while (miPar.entero >= i) {
+  while (miPar.entero > i) {
     if (miPar.entero == vector[0][0] && !miPar.caracter)
       write 'c', 'i', 'e', 'r', 't', 'o', '\n';
     else 
